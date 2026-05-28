@@ -1,0 +1,2 @@
+# wakore-site
+Wakore Project
