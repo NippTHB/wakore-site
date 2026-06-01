@@ -1,81 +1,1193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Wakore</title>
-
+  <title>Wakore | 小さな部屋を整える生活雑貨店</title>
   <style>
+    :root {
+      color-scheme: light;
+      --bg: #fbf8f4;
+      --cream: #f3eee7;
+      --card: #fffdf9;
+      --ink: #27211d;
+      --text: #4f4741;
+      --muted: #8a8179;
+      --line: #e8ded4;
+      --rose: #d9a7aa;
+      --rose-dark: #9f6a70;
+      --brown: #2d241f;
+      --shadow: 0 18px 45px rgba(78, 60, 48, 0.08);
+      font-family: "Yu Mincho", "Hiragino Mincho ProN", "Yu Gothic", Meiryo, serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: #f7f3ee;
-      color: #222;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    body.cart-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      color: inherit;
+      font: inherit;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(251, 248, 244, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-main {
+      position: relative;
+      min-height: 74px;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .logo {
+      display: inline-grid;
+      gap: 2px;
+      justify-items: center;
+    }
+
+    .logo-main {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.9rem, 3vw, 2.75rem);
+      letter-spacing: 0.17em;
+      line-height: 1;
+      color: var(--ink);
+      padding-left: 0.17em;
+    }
+
+    .logo-sub {
+      color: var(--muted);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+    }
+
+    .header-icons {
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      background: transparent;
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 1.2rem;
+      position: relative;
+    }
+
+    .cart-count {
+      position: absolute;
+      right: -3px;
+      top: 0;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--rose);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-weight: 700;
+    }
+
+    .menu-button {
+      display: none;
+    }
+
+    .nav {
+      min-height: 42px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 20px;
+      gap: 42px;
+      border-top: 1px solid rgba(232, 222, 212, 0.7);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      color: #6e655d;
+      font-size: 0.9rem;
+      font-weight: 600;
     }
 
-    .container {
-      max-width: 700px;
+    .nav a:hover {
+      color: var(--rose-dark);
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .hero {
+      padding: 28px 0 48px;
+    }
+
+    .hero-card {
+      height: clamp(250px, 28vw, 350px);
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(251, 248, 244, 0.94) 0%, rgba(251, 248, 244, 0.74) 31%, rgba(251, 248, 244, 0.08) 62%),
+        url("https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=1600&q=86") center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: clamp(28px, 5vw, 70px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(420px, calc(100% - 56px));
+      max-width: 420px;
+      display: grid;
+      gap: 16px;
+      padding: 20px 0;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
     }
 
     h1 {
-      font-size: 72px;
-      font-weight: 700;
-      letter-spacing: -3px;
-      margin-bottom: 20px;
+      color: var(--ink);
+      font-size: clamp(1.65rem, 2.55vw, 2.65rem);
+      line-height: 1.42;
+      letter-spacing: 0.02em;
+      font-weight: 500;
+      max-width: 12em;
     }
 
-    p {
-      font-size: 20px;
-      line-height: 1.7;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 10px 18px;
+    .hero-button {
+      width: fit-content;
+      min-height: 44px;
       border-radius: 999px;
-      background: white;
-      border: 1px solid #ddd;
-      font-size: 14px;
-      color: #666;
+      background: var(--brown);
+      color: #fff;
+      padding: 0 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.86rem;
+      font-weight: 700;
     }
 
-    @media (max-width: 700px) {
-      h1 {
-        font-size: 52px;
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    .section-kicker {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.34em;
+    }
+
+    .section-head h2 {
+      color: var(--ink);
+      font-size: clamp(1.6rem, 2.4vw, 2.45rem);
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0.04em;
+    }
+
+    .view-all {
+      color: #7a7068;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .products {
+      padding: 0 0 72px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .product-card {
+      display: grid;
+      gap: 13px;
+    }
+
+    .product-photo {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(39, 33, 29, 0), rgba(39, 33, 29, 0.05)),
+        var(--image) center/cover;
+      box-shadow: 0 10px 26px rgba(78, 60, 48, 0.07);
+    }
+
+    .badge {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 0 12px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #776c63;
+      display: inline-flex;
+      align-items: center;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+
+    .product-info {
+      display: grid;
+      gap: 5px;
+      padding: 0 4px 2px;
+    }
+
+    .product-category {
+      color: var(--muted);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .product-title {
+      color: var(--ink);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .price {
+      color: #5f564f;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.93rem;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .small-button {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 253, 249, 0.9);
+      color: #5b5149;
+      cursor: pointer;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .small-button.add {
+      min-width: 42px;
+      border-color: var(--rose);
+      background: var(--rose);
+      color: #fff;
+      padding: 0 12px;
+    }
+
+    .categories {
+      background: var(--cream);
+      padding: 58px 0 78px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .category-card {
+      position: relative;
+      min-height: 245px;
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(39, 33, 29, 0.02), rgba(39, 33, 29, 0.26)),
+        var(--image) center/cover;
+    }
+
+    .category-card span {
+      position: absolute;
+      left: 22px;
+      bottom: 20px;
+      color: #fff;
+      font-size: 1.18rem;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .philosophy {
+      padding: 76px 0 84px;
+      text-align: center;
+    }
+
+    .philosophy-inner {
+      width: min(700px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .philosophy h2 {
+      color: var(--ink);
+      font-size: clamp(1.75rem, 3vw, 2.7rem);
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: 0.04em;
+    }
+
+    .philosophy p {
+      color: #6f655d;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.98rem;
+      line-height: 2;
+    }
+
+    .rose-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--rose-dark);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+    }
+
+    .rose-line::before,
+    .rose-line::after {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: var(--rose);
+    }
+
+    .guide {
+      border-top: 1px solid var(--line);
+      background: var(--card);
+      padding: 56px 0;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 56px;
+    }
+
+    .guide-card {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .guide-card::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: var(--rose);
+    }
+
+    .guide-card strong {
+      color: var(--ink);
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .guide-card span {
+      color: #6f655d;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .footer {
+      background: #eee7df;
+      padding: 54px 0 32px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.25fr repeat(3, 1fr);
+      gap: 52px;
+      padding-bottom: 38px;
+      border-bottom: 1px solid #ddd2c8;
+    }
+
+    .footer-logo {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      font-size: 2rem;
+      letter-spacing: 0.18em;
+      padding-left: 0.18em;
+      line-height: 1;
+    }
+
+    .footer p,
+    .footer a {
+      color: #675d55;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .footer-intro {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .footer-column {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .footer-column strong {
+      color: var(--ink);
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+      margin-bottom: 4px;
+    }
+
+    .footer-bottom {
+      padding-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: #81766e;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      background: rgba(39, 33, 29, 0.28);
+    }
+
+    .cart-overlay.active {
+      display: block;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 50;
+      width: min(420px, 100%);
+      height: 100%;
+      background: var(--card);
+      box-shadow: -18px 0 50px rgba(39, 33, 29, 0.18);
+      transform: translateX(100%);
+      transition: transform 220ms ease;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .cart-drawer.active {
+      transform: translateX(0);
+    }
+
+    .cart-head,
+    .cart-foot {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+    }
+
+    .cart-foot {
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+      display: grid;
+    }
+
+    .cart-head p,
+    .cart-foot p {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-top: 2px;
+    }
+
+    .close-cart {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .cart-items {
+      padding: 18px 20px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      overflow-y: auto;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+    }
+
+    .cart-empty {
+      color: var(--muted);
+      padding: 28px 0;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 62px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--line);
+      padding: 10px;
+      background: #faf8f6;
+    }
+
+    .cart-thumb {
+      width: 62px;
+      height: 62px;
+      background: var(--image) center/cover;
+      border-radius: 10px;
+    }
+
+    .cart-item strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .cart-item span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .qty button {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 60;
+      transform: translate(-50%, 16px);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      padding: 11px 16px;
+      transition: opacity 180ms ease, transform 180ms ease;
+      font-family: "Yu Gothic", Meiryo, sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        display: none;
       }
 
-      p {
-        font-size: 18px;
+      .menu-button {
+        display: inline-grid;
+      }
+
+      .mobile-menu.open {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding-bottom: 14px;
+        font-family: "Yu Gothic", Meiryo, sans-serif;
+      }
+
+      .mobile-menu a {
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--card);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #605b55;
+        font-size: 0.9rem;
+      }
+
+      .product-grid,
+      .category-grid,
+      .guide-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .footer-top {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .header-main {
+        min-height: 64px;
+        justify-items: start;
+      }
+
+      .logo-main {
+        font-size: 2rem;
+      }
+
+      .logo-sub,
+      .icon-button[aria-label="検索"],
+      .icon-button[aria-label="お気に入り"] {
+        display: none;
+      }
+
+      .header-icons {
+        right: 0;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .hero-card {
+        height: 280px;
+        border-radius: 14px;
+        background-position: center right;
+      }
+
+      .hero-copy {
+        left: 22px;
+        right: 22px;
+        width: auto;
+        max-width: none;
+        padding: 16px 0;
+      }
+
+      h1 {
+        font-size: 1.62rem;
+        line-height: 1.45;
+        max-width: 11em;
+      }
+
+      .product-grid,
+      .category-grid,
+      .guide-grid,
+      .footer-top {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: start;
+      }
+
+      .product-photo {
+        aspect-ratio: 1 / 0.86;
+      }
+
+      .footer-bottom {
+        display: grid;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Wakore</h1>
-
-    <p>
-      Discover fun, stylish and unique finds curated for everyday life in Japan.
-    </p>
-
-    <div class="tag">
-      Coming Soon • wakore.jp
+  <header class="site-header">
+    <div class="shell header-main">
+      <a class="logo" href="#top" aria-label="Wakore トップへ">
+        <span class="logo-main">Wakore</span>
+        <span class="logo-sub">CURATED HOME GOODS</span>
+      </a>
+      <div class="header-icons">
+        <button class="icon-button" type="button" aria-label="検索">⌕</button>
+        <button class="icon-button" type="button" aria-label="お気に入り">♡</button>
+        <button class="icon-button" type="button" aria-label="カートを開く" data-open-cart>
+          ♧
+          <span class="cart-count" data-cart-count>0</span>
+        </button>
+        <button class="icon-button menu-button" type="button" aria-label="メニューを開く" data-menu-toggle>☰</button>
+      </div>
     </div>
-  </div>
+    <nav class="nav" aria-label="商品ナビゲーション">
+      <a href="#products">新着</a>
+      <a href="#categories">カテゴリー</a>
+      <a href="#philosophy">Wakoreについて</a>
+      <a href="#guide">送料・配送</a>
+    </nav>
+    <nav class="shell mobile-menu" data-mobile-menu aria-label="モバイルナビゲーション">
+      <a href="#products">新着</a>
+      <a href="#categories">カテゴリー</a>
+      <a href="#philosophy">Wakoreについて</a>
+      <a href="#guide">配送</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <span class="eyebrow">WAKORE — 小さな暮らし</span>
+          <h1 id="hero-title">小さな部屋を、<br />手頃にセンスよく整える。</h1>
+          <a class="hero-button" href="#products">新着アイテムを見る</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell products" id="products" aria-labelledby="products-title">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">NEW & FEATURED</span>
+          <h2 id="products-title">新着・おすすめ</h2>
+        </div>
+        <a class="view-all" href="#categories">すべて見る</a>
+      </div>
+      <div class="product-grid" data-products></div>
+    </section>
+
+    <section class="categories" id="categories" aria-labelledby="categories-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">CATEGORIES</span>
+            <h2 id="categories-title">カテゴリーから探す</h2>
+          </div>
+        </div>
+        <div class="category-grid">
+          <a class="category-card" href="#products" style="--image: url('https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=84');">
+            <span>キッチン</span>
+          </a>
+          <a class="category-card" href="#products" style="--image: url('https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=84');">
+            <span>収納</span>
+          </a>
+          <a class="category-card" href="#products" style="--image: url('https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=900&q=84');">
+            <span>バス・洗面</span>
+          </a>
+          <a class="category-card" href="#products" style="--image: url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=84');">
+            <span>くつろぎ</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell philosophy" id="philosophy" aria-labelledby="philosophy-title">
+      <div class="philosophy-inner">
+        <span class="section-kicker">WAKORE PHILOSOPHY</span>
+        <h2 id="philosophy-title">小さな部屋にこそ、ていねいな暮らしを。</h2>
+        <p>
+          Wakoreは、コンパクトな住まいでも心地よく過ごせるように選んだ、日々の道具と雑貨のお店です。流行に左右されず、長く使える品質と、手の届きやすい価格。あなたの部屋に静かになじむ一点をお届けします。
+        </p>
+        <span class="rose-line">和暮れ</span>
+      </div>
+    </section>
+
+    <section class="guide" id="guide" aria-labelledby="guide-title">
+      <div class="shell guide-grid">
+        <div class="guide-card">
+          <strong id="guide-title">5,000円以上で送料無料</strong>
+          <span>正式販売時の配送条件として、分かりやすい送料案内を整えます。</span>
+        </div>
+        <div class="guide-card">
+          <strong>国内在庫から発送</strong>
+          <span>在庫のある商品を、国内から順次発送する想定です。</span>
+        </div>
+        <div class="guide-card">
+          <strong>返品・交換について</strong>
+          <span>破損や不具合があった場合の連絡方法を購入前に確認できる形で整えます。</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer-top">
+        <div class="footer-intro">
+          <div class="footer-logo">Wakore</div>
+          <p>小さな部屋を、手頃にセンスよく整える。</p>
+        </div>
+        <div class="footer-column">
+          <strong>ショップ</strong>
+          <a href="#products">新着アイテム</a>
+          <a href="#categories">カテゴリー</a>
+          <a href="#products">ギフト</a>
+          <a href="#products">少量入荷</a>
+        </div>
+        <div class="footer-column">
+          <strong>サポート</strong>
+          <a href="#guide">送料・配送</a>
+          <a href="#guide">返品・交換</a>
+          <a href="#contact">お問い合わせ</a>
+          <a href="#guide">よくある質問</a>
+        </div>
+        <div class="footer-column">
+          <strong>Wakoreについて</strong>
+          <a href="#philosophy">私たちの想い</a>
+          <a href="#legal">特定商取引法に基づく表記</a>
+          <a href="#privacy">プライバシーポリシー</a>
+          <a href="#top">トップへ戻る</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Wakore. All rights reserved.</span>
+        <span>小さな暮らしのための生活雑貨店</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cart-overlay" data-close-cart></div>
+  <aside class="cart-drawer" aria-label="ショッピングカート" aria-hidden="true" data-cart-drawer>
+    <div class="cart-head">
+      <div>
+        <strong>ショッピングカート</strong>
+        <p>購入画面は次の開発段階で接続します。</p>
+      </div>
+      <button class="close-cart" type="button" aria-label="カートを閉じる" data-close-cart>×</button>
+    </div>
+    <div class="cart-items" data-cart-items></div>
+    <div class="cart-foot">
+      <div class="total-row">
+        <span>小計</span>
+        <span data-cart-total>¥0</span>
+      </div>
+      <button class="small-button add" type="button">購入手続きへ</button>
+      <p>送料・配送予定日は購入画面で表示される想定です。</p>
+    </div>
+  </aside>
+
+  <div class="toast" data-toast>カートに追加しました</div>
+
+  <script>
+    const products = [
+      {
+        id: "mug",
+        name: "やわらかマグカップ",
+        category: "キッチン",
+        price: 1980,
+        status: "新着",
+        image: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "side-table",
+        name: "オーク調サイドテーブル",
+        category: "くつろぎ",
+        price: 4980,
+        status: "少量入荷",
+        image: "https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "cushion",
+        name: "リネンクッションカバー",
+        category: "くつろぎ",
+        price: 2480,
+        status: "人気",
+        image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "basket",
+        name: "ラタンバスケット 3点",
+        category: "収納",
+        price: 4980,
+        status: "定番",
+        image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "tray",
+        name: "洗面まわりの浅型トレー",
+        category: "バス・洗面",
+        price: 1280,
+        status: "定番",
+        image: "https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "lamp",
+        name: "和紙風テーブルランプ",
+        category: "くつろぎ",
+        price: 3980,
+        status: "残りわずか",
+        image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "rack",
+        name: "省スペース マグネットラック",
+        category: "キッチン",
+        price: 2480,
+        status: "少量入荷",
+        image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=84"
+      },
+      {
+        id: "linen-mat",
+        name: "コットンラグ S",
+        category: "くつろぎ",
+        price: 3280,
+        status: "季節限定",
+        image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=84"
+      }
+    ];
+
+    const cart = new Map();
+    const formatter = new Intl.NumberFormat("ja-JP", {
+      style: "currency",
+      currency: "JPY",
+      maximumFractionDigits: 0
+    });
+
+    const productGrid = document.querySelector("[data-products]");
+    const cartCount = document.querySelector("[data-cart-count]");
+    const cartItems = document.querySelector("[data-cart-items]");
+    const cartTotal = document.querySelector("[data-cart-total]");
+    const drawer = document.querySelector("[data-cart-drawer]");
+    const overlay = document.querySelector(".cart-overlay");
+    const toast = document.querySelector("[data-toast]");
+    const mobileMenu = document.querySelector("[data-mobile-menu]");
+
+    function productCard(product) {
+      return `
+        <article class="product-card">
+          <div class="product-photo" style="--image: url('${product.image}');">
+            <span class="badge">${product.status}</span>
+          </div>
+          <div class="product-info">
+            <div class="product-category">${product.category}</div>
+            <h3 class="product-title">${product.name}</h3>
+            <div class="price">${formatter.format(product.price)} 税込</div>
+            <div class="card-actions">
+              <button class="small-button" type="button" data-detail="${product.id}">詳細を見る</button>
+              <button class="small-button add" type="button" data-add="${product.id}">＋</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderProducts() {
+      productGrid.innerHTML = products.map(productCard).join("");
+    }
+
+    function updateCart() {
+      const entries = Array.from(cart.entries());
+      const itemCount = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
+      const total = entries.reduce((sum, [id, quantity]) => {
+        const product = products.find((item) => item.id === id);
+        return sum + product.price * quantity;
+      }, 0);
+
+      cartCount.textContent = itemCount;
+      cartTotal.textContent = formatter.format(total);
+
+      if (!entries.length) {
+        cartItems.innerHTML = '<p class="cart-empty">カートに商品はありません。</p>';
+        return;
+      }
+
+      cartItems.innerHTML = entries.map(([id, quantity]) => {
+        const product = products.find((item) => item.id === id);
+        return `
+          <div class="cart-item">
+            <div class="cart-thumb" style="--image: url('${product.image}');"></div>
+            <div>
+              <strong>${product.name}</strong>
+              <span>${formatter.format(product.price)} 税込</span>
+            </div>
+            <div class="qty" aria-label="${product.name}の数量">
+              <button type="button" data-decrease="${id}" aria-label="数量を減らす">−</button>
+              <span>${quantity}</span>
+              <button type="button" data-increase="${id}" aria-label="数量を増やす">＋</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openCart() {
+      drawer.classList.add("active");
+      overlay.classList.add("active");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.classList.add("cart-open");
+    }
+
+    function closeCart() {
+      drawer.classList.remove("active");
+      overlay.classList.remove("active");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("cart-open");
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+
+    document.addEventListener("click", (event) => {
+      const addButton = event.target.closest("[data-add]");
+      const detailButton = event.target.closest("[data-detail]");
+      const increaseButton = event.target.closest("[data-increase]");
+      const decreaseButton = event.target.closest("[data-decrease]");
+
+      if (addButton) {
+        const id = addButton.dataset.add;
+        cart.set(id, (cart.get(id) || 0) + 1);
+        updateCart();
+        showToast("カートに追加しました");
+      }
+
+      if (detailButton) {
+        const product = products.find((item) => item.id === detailButton.dataset.detail);
+        showToast(`${product.name}：商品詳細ページは準備中です`);
+      }
+
+      if (increaseButton) {
+        const id = increaseButton.dataset.increase;
+        cart.set(id, (cart.get(id) || 0) + 1);
+        updateCart();
+      }
+
+      if (decreaseButton) {
+        const id = decreaseButton.dataset.decrease;
+        const nextQuantity = (cart.get(id) || 0) - 1;
+        if (nextQuantity <= 0) {
+          cart.delete(id);
+        } else {
+          cart.set(id, nextQuantity);
+        }
+        updateCart();
+      }
+    });
+
+    document.querySelectorAll("[data-open-cart]").forEach((button) => {
+      button.addEventListener("click", openCart);
+    });
+
+    document.querySelectorAll("[data-close-cart]").forEach((button) => {
+      button.addEventListener("click", closeCart);
+    });
+
+    document.querySelector("[data-menu-toggle]").addEventListener("click", () => {
+      mobileMenu.classList.toggle("open");
+    });
+
+    mobileMenu.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeCart();
+        mobileMenu.classList.remove("open");
+      }
+    });
+
+    renderProducts();
+    updateCart();
+  </script>
 </body>
 </html>
